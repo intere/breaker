@@ -40,29 +40,29 @@ class GameViewController: UIViewController {
         setupSplash()
     }
 
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return true
     }
 
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
 
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
 
-        switch UIDevice.currentDevice().orientation {
-        case .Portrait:
+        switch UIDevice.current.orientation {
+        case .portrait:
             scnView.pointOfView = verticalCameraNode
         default:
             scnView.pointOfView = horizontalCameraNode
         }
     }
 
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         switch game.state {
-        case .TapToPlay:
+        case .tapToPlay:
             game.reset()
-            game.state = .Playing
+            game.state = .playing
             showSplash("")
             resetNodes()
             scnScene.rootNode.runAction(SCNAction.waitForDurationThenRunBlock(1) { (node) in
@@ -70,27 +70,27 @@ class GameViewController: UIViewController {
             })
             break
 
-        case .GameOver:
-            game.state = .TapToPlay
+        case .gameOver:
+            game.state = .tapToPlay
             showSplash("TapToPlay")
             return
 
-        case .Playing:
+        case .playing:
             for touch in touches {
-                let location = touch.locationInView(scnView)
+                let location = touch.location(in: scnView)
                 touchX = location.x
                 paddleX = paddleNode.position.x
             }
         }
     }
 
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        guard game.state == GameStateType.Playing else {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard game.state == GameStateType.playing else {
             return
         }
 
         for touch in touches {
-            let location = touch.locationInView(scnView)
+            let location = touch.location(in: scnView)
             paddleNode.position.x = paddleX + Float(location.x - touchX) * 0.1
 
             if paddleNode.position.x > 4.5 {
@@ -109,25 +109,25 @@ class GameViewController: UIViewController {
 
 extension GameViewController : SCNSceneRendererDelegate {
 
-    func renderer(renderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
-        guard game.state != GameStateType.GameOver else {
+    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        guard game.state != GameStateType.gameOver else {
             showSplash("GameOver")
-            scnScene.rootNode.runAction(SCNAction.sequence([SCNAction.waitForDuration(3), SCNAction.runBlock({ (node) in
-                guard self.game.state == .GameOver else {
+            scnScene.rootNode.runAction(SCNAction.sequence([SCNAction.wait(duration: 3), SCNAction.run({ (node) in
+                guard self.game.state == .gameOver else {
                     return
                 }
-                self.game.state = .TapToPlay
+                self.game.state = .tapToPlay
                 self.showSplash("TapToPlay")
             })]))
             return
         }
 
-        if let radians = ballNode.physicsBody?.velocity.xzAngle where abs(convertToDegrees(radians)) < 7 {
-            let angle = convertToDegrees(radians)
+        if let radians = ballNode.physicsBody?.velocity.xzAngle, abs(radians.degrees) < 7 {
+            let angle = radians.degrees
             if angle < 0 {
-                ballNode.physicsBody?.velocity.xzAngle = convertToRadians(angle - 5)
+                ballNode.physicsBody?.velocity.xzAngle = (angle - 5).radians
             } else {
-                ballNode.physicsBody?.velocity.xzAngle = convertToRadians(angle + 5)
+                ballNode.physicsBody?.velocity.xzAngle = (angle + 5).radians
             }
         }
 
@@ -145,7 +145,7 @@ extension GameViewController : SCNSceneRendererDelegate {
 
 extension GameViewController : SCNPhysicsContactDelegate {
 
-    func physicsWorld(world: SCNPhysicsWorld, didBeginContact contact: SCNPhysicsContact) {
+    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
         var contactNode: SCNNode!
         if contact.nodeA.name == "Ball" {
             contactNode = contact.nodeB
@@ -159,33 +159,33 @@ extension GameViewController : SCNPhysicsContactDelegate {
 
         lastContactNode = contactNode
 
-        if contactNode.physicsBody?.categoryBitMask == ColliderType.Barrier.rawValue {
+        if contactNode.physicsBody?.categoryBitMask == ColliderType.barrier.rawValue {
             if contactNode.name == "Bottom" {
                 if !invincible {
                     game.lives -= 1
                     if game.lives == 0 {
-                        game.state = GameStateType.GameOver
+                        game.state = GameStateType.gameOver
                         ballNode.physicsBody?.velocity = SCNVector3(x: 0, y: 0, z: 0)
                         return
                     }
                     game.playSound(scnScene.rootNode, name: "Barrier")
                     invincible = true
 
-                    scnScene.rootNode.runAction(SCNAction.sequence([SCNAction.waitForDuration(0.5), SCNAction.runBlock({ (node) in
+                    scnScene.rootNode.runAction(SCNAction.sequence([SCNAction.wait(duration: 0.5), SCNAction.run({ (node) in
                         self.invincible = false
                     })]))
                 }
             }
-        } else if contactNode.physicsBody?.categoryBitMask == ColliderType.Brick.rawValue {
+        } else if contactNode.physicsBody?.categoryBitMask == ColliderType.brick.rawValue {
             game.score += 1
-            contactNode.hidden = true
-            let brickNumber = random() % 3
+            contactNode.isHidden = true
+            let brickNumber = Int(arc4random()) % 3
             game.playSound(scnScene.rootNode,name: "Block\(brickNumber)")
-        } else if contactNode.physicsBody?.categoryBitMask == ColliderType.Paddle.rawValue {
+        } else if contactNode.physicsBody?.categoryBitMask == ColliderType.paddle.rawValue {
             if contactNode.name == "Left" {
-                ballNode.physicsBody?.velocity.xzAngle -= convertToRadians(20)
+                ballNode.physicsBody?.velocity.xzAngle -= Float(20).radians
             } else if contactNode.name == "Right" {
-                ballNode.physicsBody?.velocity.xzAngle += convertToRadians(20)
+                ballNode.physicsBody?.velocity.xzAngle += Float(20).radians
             }
             game.playSound(scnScene.rootNode, name:"Paddle")
         }
@@ -216,15 +216,15 @@ private extension GameViewController {
     }
 
     func setupNodes() {
-        horizontalCameraNode = scnScene.rootNode.childNodeWithName("HorizontalCamera", recursively: true)
-        verticalCameraNode = scnScene.rootNode.childNodeWithName("VerticalCamera", recursively: true)
-        ballNode = scnScene.rootNode.childNodeWithName("Ball", recursively: true)
-        paddleNode = scnScene.rootNode.childNodeWithName("Paddle", recursively: true)
-        floorNode = scnScene.rootNode.childNodeWithName("Floor", recursively: true)
-        splashNode = scnScene.rootNode.childNodeWithName("Splash", recursively: true)
+        horizontalCameraNode = scnScene.rootNode.childNode(withName: "HorizontalCamera", recursively: true)
+        verticalCameraNode = scnScene.rootNode.childNode(withName: "VerticalCamera", recursively: true)
+        ballNode = scnScene.rootNode.childNode(withName: "Ball", recursively: true)
+        paddleNode = scnScene.rootNode.childNode(withName: "Paddle", recursively: true)
+        floorNode = scnScene.rootNode.childNode(withName: "Floor", recursively: true)
+        splashNode = scnScene.rootNode.childNode(withName: "Splash", recursively: true)
         scnScene.rootNode.addChildNode(game.hudNode)
 
-        ballNode.physicsBody?.contactTestBitMask = ColliderType.Barrier.rawValue | ColliderType.Brick.rawValue | ColliderType.Paddle.rawValue
+        ballNode.physicsBody?.contactTestBitMask = ColliderType.barrier.rawValue | ColliderType.brick.rawValue | ColliderType.paddle.rawValue
 
         verticalCameraNode.constraints = [SCNLookAtConstraint(target: floorNode)]
         horizontalCameraNode.constraints = [SCNLookAtConstraint(target: floorNode)]
@@ -247,31 +247,31 @@ private extension GameViewController {
 
 private extension GameViewController {
 
-    func showSplash(name:String, imageFileName:String) -> SCNNode {
+    func showSplash(_ name:String, imageFileName:String) -> SCNNode {
         splashNode.geometry?.materials.first?.diffuse.contents = UIImage(named: imageFileName)
         return splashNode
     }
 
-    func showSplash(splashName:String) {
+    func showSplash(_ splashName:String) {
         var images = [ "TapToPlay": "Breaker.scnassets/Textures/TapToPlay_Diffuse.png", "GameOver": "Breaker.scnassets/Textures/GameOver_Diffuse.png" ]
 
         if let image = images[splashName] {
-            splashNode.hidden = false
-            showSplash(splashName, imageFileName: image)
+            splashNode.isHidden = false
+            let _ = showSplash(splashName, imageFileName: image)
         } else {
-            splashNode.hidden = true
+            splashNode.isHidden = true
         }
     }
 
     func resetNodes() {
 
-        if let blocks = scnScene.rootNode.childNodeWithName("Bricks", recursively: true) {
+        if let blocks = scnScene.rootNode.childNode(withName: "Bricks", recursively: true) {
             for child in blocks.childNodes {
-                child.hidden = false
+                child.isHidden = false
             }
         }
         ballNode.position = SCNVector3(x: 0, y: 0, z: 0)
-        ballNode.hidden = false
-        splashNode.hidden = true
+        ballNode.isHidden = false
+        splashNode.isHidden = true
     }
 }

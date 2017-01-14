@@ -9,8 +9,8 @@
 import UIKit
 
 enum ColliderType: Int {
-    case Ball = 0b1
-    case Barrier = 0b10
-    case Brick = 0b100
-    case Paddle = 0b1000
+    case ball = 0b1
+    case barrier = 0b10
+    case brick = 0b100
+    case paddle = 0b1000
 }

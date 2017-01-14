@@ -20,25 +20,28 @@
 * THE SOFTWARE.
 */
 
+import SceneKit
 import Foundation
-import CoreGraphics
 
-let DegreesPerRadians = Float(M_PI/180)
-let RadiansPerDegrees = Float(180/M_PI)
-
-func convertToRadians(angle:Float) -> Float {
-  return angle * DegreesPerRadians
-}
-
-func convertToRadians(angle:CGFloat) -> CGFloat {
-  return CGFloat(CGFloat(angle) * CGFloat(DegreesPerRadians))
-}
-
-/// Convert Radians to Degrees
-func convertToDegrees(angle:Float) -> Float {
-  return angle * RadiansPerDegrees
-}
-
-func convertToDegrees(angle:CGFloat) -> CGFloat {
-  return CGFloat(CGFloat(angle) * CGFloat(RadiansPerDegrees))
+extension SCNAction {
+  
+  class func waitForDurationThenRemoveFromParent(_ duration:TimeInterval) -> SCNAction {
+    let wait = SCNAction.wait(duration: duration)
+    let remove = SCNAction.removeFromParentNode()
+    return SCNAction.sequence([wait,remove])
+  }
+  
+  class func waitForDurationThenRunBlock(_ duration:TimeInterval, block: @escaping ((SCNNode!) -> Void) ) -> SCNAction {
+    let wait = SCNAction.wait(duration: duration)
+    let runBlock = SCNAction.run { (node) -> Void in
+      block(node)
+    }
+    return SCNAction.sequence([wait,runBlock])
+  }
+  
+  class func rotateByXForever(_ x:CGFloat, y:CGFloat, z:CGFloat, duration:TimeInterval) -> SCNAction {
+    let rotate = SCNAction.rotateBy(x: x, y: y, z: z, duration: duration)
+    return SCNAction.repeatForever(rotate)
+  }
+  
 }

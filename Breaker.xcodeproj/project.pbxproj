@@ -16,10 +16,11 @@
 		362D61EC1CE13F9C00F8A679 /* BreakerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D61EB1CE13F9C00F8A679 /* BreakerUITests.swift */; };
 		362D61FC1CE1412A00F8A679 /* Breaker.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 362D61FB1CE1412A00F8A679 /* Breaker.scnassets */; };
 		362D62031CE141BE00F8A679 /* GameHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D61FF1CE141BE00F8A679 /* GameHelper.swift */; };
-		362D62041CE141BE00F8A679 /* GameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D62001CE141BE00F8A679 /* GameUtils.swift */; };
-		362D62051CE141BE00F8A679 /* SCNAction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D62011CE141BE00F8A679 /* SCNAction+Extensions.swift */; };
-		362D62061CE141BE00F8A679 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D62021CE141BE00F8A679 /* SCNVector3+Extensions.swift */; };
+		362D62051CE141BE00F8A679 /* SCNAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D62011CE141BE00F8A679 /* SCNAction.swift */; };
+		362D62061CE141BE00F8A679 /* SCNVector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D62021CE141BE00F8A679 /* SCNVector3.swift */; };
 		36ED1ABC1CE160780092A636 /* ColliderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36ED1ABB1CE160780092A636 /* ColliderType.swift */; };
+		938B3B4F1E2A7F0100DB59AA /* CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938B3B4E1E2A7F0100DB59AA /* CGFloat.swift */; };
+		938B3B511E2A7F6700DB59AA /* Float.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938B3B501E2A7F6700DB59AA /* Float.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,10 +56,11 @@
 		362D61ED1CE13F9C00F8A679 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		362D61FB1CE1412A00F8A679 /* Breaker.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Breaker.scnassets; sourceTree = "<group>"; };
 		362D61FF1CE141BE00F8A679 /* GameHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameHelper.swift; sourceTree = "<group>"; };
-		362D62001CE141BE00F8A679 /* GameUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameUtils.swift; sourceTree = "<group>"; };
-		362D62011CE141BE00F8A679 /* SCNAction+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNAction+Extensions.swift"; sourceTree = "<group>"; };
-		362D62021CE141BE00F8A679 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
+		362D62011CE141BE00F8A679 /* SCNAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SCNAction.swift; path = GameUtils/SCNAction.swift; sourceTree = "<group>"; };
+		362D62021CE141BE00F8A679 /* SCNVector3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SCNVector3.swift; path = GameUtils/SCNVector3.swift; sourceTree = "<group>"; };
 		36ED1ABB1CE160780092A636 /* ColliderType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColliderType.swift; sourceTree = "<group>"; };
+		938B3B4E1E2A7F0100DB59AA /* CGFloat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGFloat.swift; sourceTree = "<group>"; };
+		938B3B501E2A7F6700DB59AA /* Float.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Float.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 		362D61C81CE13F9B00F8A679 /* Breaker */ = {
 			isa = PBXGroup;
 			children = (
+				938B3B4D1E2A7EF700DB59AA /* Extensions */,
 				36ED1ABA1CE160640092A636 /* Models */,
 				362D61FE1CE141BE00F8A679 /* GameUtils */,
 				362D61FD1CE141A900F8A679 /* Controllers */,
@@ -168,9 +171,6 @@
 			isa = PBXGroup;
 			children = (
 				362D61FF1CE141BE00F8A679 /* GameHelper.swift */,
-				362D62001CE141BE00F8A679 /* GameUtils.swift */,
-				362D62011CE141BE00F8A679 /* SCNAction+Extensions.swift */,
-				362D62021CE141BE00F8A679 /* SCNVector3+Extensions.swift */,
 			);
 			path = GameUtils;
 			sourceTree = "<group>";
@@ -181,6 +181,17 @@
 				36ED1ABB1CE160780092A636 /* ColliderType.swift */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		938B3B4D1E2A7EF700DB59AA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				362D62021CE141BE00F8A679 /* SCNVector3.swift */,
+				362D62011CE141BE00F8A679 /* SCNAction.swift */,
+				938B3B4E1E2A7F0100DB59AA /* CGFloat.swift */,
+				938B3B501E2A7F6700DB59AA /* Float.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -246,18 +257,21 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Eric Internicola";
 				TargetAttributes = {
 					362D61C51CE13F9B00F8A679 = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0820;
 					};
 					362D61DB1CE13F9B00F8A679 = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0820;
 						TestTargetID = 362D61C51CE13F9B00F8A679;
 					};
 					362D61E61CE13F9C00F8A679 = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0820;
 						TestTargetID = 362D61C51CE13F9B00F8A679;
 					};
 				};
@@ -315,13 +329,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				938B3B4F1E2A7F0100DB59AA /* CGFloat.swift in Sources */,
 				36ED1ABC1CE160780092A636 /* ColliderType.swift in Sources */,
 				362D61CE1CE13F9B00F8A679 /* GameViewController.swift in Sources */,
-				362D62061CE141BE00F8A679 /* SCNVector3+Extensions.swift in Sources */,
-				362D62051CE141BE00F8A679 /* SCNAction+Extensions.swift in Sources */,
-				362D62041CE141BE00F8A679 /* GameUtils.swift in Sources */,
+				362D62061CE141BE00F8A679 /* SCNVector3.swift in Sources */,
+				362D62051CE141BE00F8A679 /* SCNAction.swift in Sources */,
 				362D61CA1CE13F9B00F8A679 /* AppDelegate.swift in Sources */,
 				362D62031CE141BE00F8A679 /* GameHelper.swift in Sources */,
+				938B3B511E2A7F6700DB59AA /* Float.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,8 +405,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -436,8 +453,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -456,6 +475,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -469,6 +489,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.Breaker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -480,6 +501,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.Breaker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -492,6 +514,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.BreakerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Breaker.app/Breaker";
 			};
 			name = Debug;
@@ -504,6 +527,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.BreakerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Breaker.app/Breaker";
 			};
 			name = Release;
@@ -516,6 +540,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.BreakerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = Breaker;
 			};
 			name = Debug;
@@ -527,6 +552,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.BreakerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = Breaker;
 			};
 			name = Release;
